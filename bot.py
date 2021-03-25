@@ -1,23 +1,26 @@
 from dogehouse import DogeClient, event, command
-from dogehouse.entities import Message
-
+from dogehouse.entities import User, Message
 import os
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
+import json
+
+with open("config.json") as config_file:
+    config = json.load(config_file)
 
 class Client(DogeClient):
     @event
     async def on_ready(self):
-        await self.join_room(id="8b4341bb-5ceb-47e2-9bae-00f6db4e20ea")
         print(f"Successfully connected as {self.user}!")
-
-    @command
-    async def ping(self, ctx: Message):
+        await self.join_room(config["room"])
+        
+    @command(name="ping")
+    async def ping_command(self, ctx):
         await self.send("pong")
-
+            
 
 if __name__ == "__main__":
-    Client(os.environ.get("TOKEN"), os.environ.get("REFRESH_TOKEN"), prefix="!").run()
+    Client(os.environ.get("TOKEN"), os.environ.get("REFRESH_TOKEN"), prefix=".").run()
