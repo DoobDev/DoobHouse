@@ -1,3 +1,6 @@
+## 1.0.1
+* Added `d!dogehouse`
+
 ## 1.0.0
 * Added console message logs
 * Added user joining messages

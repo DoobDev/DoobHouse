@@ -15,21 +15,22 @@ import json
 with open("config.json") as config_file:
     config = json.load(config_file)
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
+
 
 class Client(DogeClient):
     @event
     async def on_ready(self):
         print(f"Successfully connected as {self.user}!")
-        #await self.join_room(config["room"])
-        await self.create_room(name="DoobHouse!", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!help for the commands!")
+        await self.join_room(config["room"])
+        # await self.create_room(name="DoobHouse!", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!help for the commands!")
         await asyncio.sleep(2)
-        await self.send(f"Doob is online! (Running version {VERSION})")
+        # await self.send(f"Doob is online! (Running version {VERSION})")
 
     @event
     async def on_message(self, message: Message):
         print(f"[MESSAGE LOGS] {message.author} - {message.content}")
-        
+
     @event
     async def on_user_join(self, user: User):
         await self.send(f"👋 Welcome to the room - {user.username}")
@@ -40,7 +41,9 @@ class Client(DogeClient):
 
     @command(name="help")
     async def help_command(self, ctx):
-        await self.send("You can find all of the commands over at: https://docs.doobbot.com/doobhouse-commands")
+        await self.send(
+            "You can find all of the commands over at: https://docs.doobbot.com/doobhouse-commands"
+        )
 
     @command(name="dogfact")
     async def dogfact_command(self, ctx):
@@ -54,7 +57,9 @@ class Client(DogeClient):
             await self.send("Here is a dog fact! - " + data["fact"] + "  :DANKIES:")
 
         else:
-            await self.send(f"The Dog Fact api sent out a {response.status_code} code :/")
+            await self.send(
+                f"⚠ The Dog Fact api sent out a {response.status_code} code :/"
+            )
 
     @command(name="dogpic")
     async def dogpic_command(self, ctx):
@@ -65,19 +70,26 @@ class Client(DogeClient):
 
             data = response.json()
 
-            await self.send("Here is a Dog Pic! - " + data["message"] + "  :peepoHappy:")
+            await self.send(
+                "Here is a Dog Pic! - " + data["message"] + "  :peepoHappy:"
+            )
 
         else:
-            await self.send(f"The Dog Picture api sent out a {response.status_code} code :/")
+            await self.send(
+                f"⚠ The Dog Picture api sent out a {response.status_code} code :/"
+            )
 
     @command(name="dev")
     async def developer_command(self, ctx):
-        await self.send(":DANKHACKERMANS: My developer is named mmatt or Matt! You can follow him on GitHub at ==> https://github.com/mmattbtw  :peepoCheer: ~ :DogeHouse: His DogeHouse account is https://dogehouse.tv/user/mmattbtw  :WICKED:")
+        await self.send(
+            ":DANKHACKERMANS: My developer is named mmatt or Matt! You can follow him on GitHub at ==> https://github.com/mmattbtw  :peepoCheer: ~ :DogeHouse: His DogeHouse account is https://dogehouse.tv/user/mmattbtw  :WICKED:"
+        )
 
     @command(name="repo")
     async def repo_command(self, ctx):
-        await self.send(":GitHub: This bot is open source on GitHub! https://github.com/doobdev/doobhouse   :DANKHACKERMANS:")
-
+        await self.send(
+            ":GitHub: This bot is open source on GitHub! https://github.com/doobdev/doobhouse   :DANKHACKERMANS:"
+        )
 
     @command(name="asktospeak")
     async def ask_to_speak_command(self, ctx):
@@ -85,7 +97,36 @@ class Client(DogeClient):
             await self.send("Can I speak...?  :peepoHug:")
             await self.ask_to_speak()
         else:
-            await self.send("Sorry, you can't ask to speak!")
+            await self.send("⚠ Sorry, you can't ask to speak!")
+
+    @command(name="dogehouse")
+    async def dogehouse_command(self, ctx):
+        response = requests.get(url="https://api.dogehouse.xyz/v1/statistics")
+        data = response.json()
+
+        totalRooms = str(data["totalRooms"])
+        totalScheduledRooms = str(data["totalScheduledRooms"])
+        totalOnline = str(data["totalOnline"])
+
+        if response.status_code == 200:
+            await self.send(
+                "DogeHouse Stats :DogeHouse:   Total Rooms - "
+                + totalRooms
+                + ", Total Scheduled Rooms - "
+                + totalScheduledRooms
+                + ", Total Online - "
+                + totalOnline
+            )
+
+        else:
+            await self.send(
+                f"⚠ The DogeHouse API responded with a `{response.status_code}` status code."
+            )
+
 
 if __name__ == "__main__":
-    Client(os.environ.get("TOKEN"), os.environ.get("REFRESH_TOKEN"), prefix=config["prefix"]).run()
+    Client(
+        os.environ.get("TOKEN"),
+        os.environ.get("REFRESH_TOKEN"),
+        prefix=config["prefix"],
+    ).run()
