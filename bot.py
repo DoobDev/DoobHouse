@@ -15,15 +15,14 @@ import json
 with open("config.json") as config_file:
     config = json.load(config_file)
 
-VERSION = "1.0.1"
-
+VERSION = "1.0.2"
 
 class Client(DogeClient):
     @event
     async def on_ready(self):
         print(f"Successfully connected as {self.user}!")
         #await self.join_room(config["room"])
-        await self.create_room(name="DoobHouse!", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!help for the commands!")
+        await self.create_room(name="DoobHouse! [[TESTING]]", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!letmespeak to get up on the stage.\nType d!help for the commands!")
         await asyncio.sleep(2)
         await self.send(f"Doob is online! (Running version {VERSION})")
 
@@ -34,6 +33,16 @@ class Client(DogeClient):
     @event
     async def on_user_join(self, user: User):
         await self.send(f"👋 Welcome to the room - {user.username}")
+
+    @event
+    async def on_speaker_request(self, user: User):
+        await self.send(f"🎤 Welcome to the stage - {user.username}")
+        await self.add_speaker(user)
+
+    @command(name="letmespeak")
+    async def speak_command(self, ctx):
+        await self.send(f"🎤 Welcome to the stage - {ctx.author.username}")
+        await self.add_speaker(ctx.author)
 
     @command(name="ping")
     async def ping_command(self, ctx):
