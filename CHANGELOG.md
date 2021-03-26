@@ -1,3 +1,6 @@
+## 1.0.2
+* Added `d!letmespeak`
+
 ## 1.0.1
 * Added `d!dogehouse`
 
