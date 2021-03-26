@@ -22,7 +22,7 @@ class Client(DogeClient):
     async def on_ready(self):
         print(f"Successfully connected as {self.user}!")
         #await self.join_room(config["room"])
-        await self.create_room(name="DoobHouse! [[TESTING]]", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!letmespeak to get up on the stage.\nType d!help for the commands!")
+        await self.create_room(name="DoobHouse!", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!letmespeak to get up on the stage.\nType d!help for the commands!")
         await asyncio.sleep(2)
         await self.send(f"Doob is online! (Running version {VERSION})")
 
@@ -34,10 +34,10 @@ class Client(DogeClient):
     async def on_user_join(self, user: User):
         await self.send(f"👋 Welcome to the room - {user.username}")
 
-    @event
-    async def on_speaker_request(self, user: User):
-        await self.send(f"🎤 Welcome to the stage - {user.username}")
-        await self.add_speaker(user)
+    # @event
+    # async def on_speaker_request(self, user: User):
+    #     await self.send(f"🎤 Welcome to the stage - {user.username}")
+    #     await self.add_speaker(user)
 
     @command(name="letmespeak")
     async def speak_command(self, ctx):
