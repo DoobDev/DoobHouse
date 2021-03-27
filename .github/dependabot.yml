@@ -1,7 +1,5 @@
 version: 2
 
-on: [push]
-
 updates:
   - package-ecosystem: "pip"
     directory: "/"
