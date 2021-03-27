@@ -1,3 +1,8 @@
+## 1.0.3
+* Automatically makes you a speaker if you request. ([#5](https://github.com/DoobDev/DoobHouse/issues/5))
+* Added `d!owoify`
+* Added `d!valroll`
+
 ## 1.0.2
 * Added `d!letmespeak`
 

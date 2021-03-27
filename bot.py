@@ -1,12 +1,19 @@
 from dogehouse import DogeClient, event, command
-from dogehouse.entities import User, Message
+from dogehouse.entities import User, Message, UserPreview
 import os
+
+from random import choice, randint
 
 import asyncio
 
 import requests
 
 from dotenv import load_dotenv
+
+from typing import Optional, Union
+
+from owoify import Owoifator
+owoifator = Owoifator()
 
 load_dotenv()
 
@@ -15,14 +22,14 @@ import json
 with open("config.json") as config_file:
     config = json.load(config_file)
 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 class Client(DogeClient):
     @event
     async def on_ready(self):
         print(f"Successfully connected as {self.user}!")
-        #await self.join_room(config["room"])
-        await self.create_room(name="DoobHouse!", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!letmespeak to get up on the stage.\nType d!help for the commands!")
+        await self.join_room(config["room"])
+        #await self.create_room(name="DoobHouse! [[TESTING]]", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!letmespeak to get up on the stage.\nType d!help for the commands!")
         await asyncio.sleep(2)
         await self.send(f"Doob is online! (Running version {VERSION})")
 
@@ -34,10 +41,52 @@ class Client(DogeClient):
     async def on_user_join(self, user: User):
         await self.send(f"👋 Welcome to the room - {user.username}")
 
-    # @event
-    # async def on_speaker_request(self, user: User):
-    #     await self.send(f"🎤 Welcome to the stage - {user.username}")
-    #     await self.add_speaker(user)
+    # TODO: Implement `on_user_leave`
+
+    # @Arthurdw 
+    @event
+    async def on_speaker_request(self, user: str, _):
+        user: Union[User, UserPreview] = [usr for usr in self.room.users if usr.id == user][0]
+        await self.send(f"🎤 Welcome to the stage - {user.mention if isinstance(user, User) else user.displayname}")
+        await self.add_speaker(user)
+
+    # TODO: Fix commands: ["addspeaker", "ban", "unban", "banchat"]
+
+    # @command(name="addspeaker")
+    # async def add_speaker_command(self, ctx, user: User):
+    #     if ctx.author.username == "mmattbtw":
+    #         await self.add_speaker(user)
+    #         await self.send(f"🎤 Welcome to the stage - {user.username}")
+    #     else:
+    #         await self.send("Sorry, you can't use this command.")
+
+    # @command(name="ban")
+    # async def ban_command(self, ctx, user: User):
+    #     if ctx.author.username == "mmattbtw":
+    #         await self.ban(user.id)
+    #         await self.send("🔨 User has been banned.")
+    #     else:
+    #         await self.send("Sorry, you can't use this command.")
+
+    # @command(name="unban")
+    # async def unban_command(self, ctx, user: User):
+    #     if ctx.author.username == "mmattbtw":
+    #         await self.unban(user.id)
+    #         await self.send(f"💖 {user.username} has been unbanned.")
+    #     else:
+    #         await self.send("Sorry, you can't use this command.")
+
+    # @command(name="banchat")
+    # async def ban_chat_command(self, ctx, user: User):
+    #     if ctx.author.username == "mmattbtw":
+    #         await self.ban_chat(user)
+    #         await self.send("🔨 User has been chat banned.")
+    #     else:
+    #         await self.send("Sorry, you can't use this command.")
+
+    @command(name="userid")
+    async def get_userid_command(self, ctx):
+        await self.send(f"Your user ID is: {ctx.author.id}")
 
     @command(name="letmespeak")
     async def speak_command(self, ctx):
@@ -131,6 +180,39 @@ class Client(DogeClient):
             await self.send(
                 f"⚠ The DogeHouse API responded with a `{response.status_code}` status code."
             )
+
+    @command(name="owoify")
+    async def owoify_command(self, ctx, Message, *, message):
+        owo_text = owoifator.owoify(text=message)
+
+        await self.send(f"{owo_text}")
+
+    async def valroll_func(self, ctx):
+        characters = (
+            "Viper",
+            "Sova",
+            "Sage",
+            "Reyna",
+            "Raze",
+            "Phoenix",
+            "Omen",
+            "Jett",
+            "Cypher",
+            "Brimstone",
+            "Breach",
+            "Killjoy",
+            "Skye",
+            "Yoru",
+            "Astra",
+        )
+
+        char = choice((characters))
+
+        await self.send(f"I think you should play {char}.  :peepoHappy:")
+
+    @command(name="valroll")
+    async def valroll_command(self, ctx):
+        await self.valroll_func(ctx)
 
 
 if __name__ == "__main__":
