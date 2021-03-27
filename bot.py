@@ -2,6 +2,8 @@ from dogehouse import DogeClient, event, command
 from dogehouse.entities import User, Message, UserPreview
 import os
 
+from random import choice, randint
+
 import asyncio
 
 import requests
@@ -9,6 +11,9 @@ import requests
 from dotenv import load_dotenv
 
 from typing import Optional, Union
+
+from owoify import Owoifator
+owoifator = Owoifator()
 
 load_dotenv()
 
@@ -35,7 +40,9 @@ class Client(DogeClient):
     @event
     async def on_user_join(self, user: User):
         await self.send(f"👋 Welcome to the room - {user.username}")
-        
+
+    # TODO: Implement `on_user_leave`
+
     # @Arthurdw 
     @event
     async def on_speaker_request(self, user: str, _):
@@ -173,6 +180,39 @@ class Client(DogeClient):
             await self.send(
                 f"⚠ The DogeHouse API responded with a `{response.status_code}` status code."
             )
+
+    @command(name="owoify")
+    async def owoify_command(self, ctx, Message, *, message):
+        owo_text = owoifator.owoify(text=message)
+
+        await self.send(f"{owo_text}")
+
+    async def valroll_func(self, ctx):
+        characters = (
+            "Viper",
+            "Sova",
+            "Sage",
+            "Reyna",
+            "Raze",
+            "Phoenix",
+            "Omen",
+            "Jett",
+            "Cypher",
+            "Brimstone",
+            "Breach",
+            "Killjoy",
+            "Skye",
+            "Yoru",
+            "Astra",
+        )
+
+        char = choice((characters))
+
+        await self.send(f"I think you should play {char}.  :peepoHappy:")
+
+    @command(name="valroll")
+    async def valroll_command(self, ctx):
+        await self.valroll_func(ctx)
 
 
 if __name__ == "__main__":
