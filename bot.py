@@ -8,6 +8,8 @@ import requests
 
 from dotenv import load_dotenv
 
+from typing import Optional
+
 load_dotenv()
 
 import json
@@ -15,14 +17,14 @@ import json
 with open("config.json") as config_file:
     config = json.load(config_file)
 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 class Client(DogeClient):
     @event
     async def on_ready(self):
         print(f"Successfully connected as {self.user}!")
-        #await self.join_room(config["room"])
-        await self.create_room(name="DoobHouse!", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!letmespeak to get up on the stage.\nType d!help for the commands!")
+        await self.join_room(config["room"])
+        #await self.create_room(name="DoobHouse! [[TESTING]]", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!letmespeak to get up on the stage.\nType d!help for the commands!")
         await asyncio.sleep(2)
         await self.send(f"Doob is online! (Running version {VERSION})")
 
@@ -38,6 +40,42 @@ class Client(DogeClient):
     # async def on_speaker_request(self, user: User):
     #     await self.send(f"🎤 Welcome to the stage - {user.username}")
     #     await self.add_speaker(user)
+
+    @command(name="addspeaker")
+    async def add_speaker_command(self, ctx, user: User):
+        if ctx.author.username == "mmattbtw":
+            await self.add_speaker(user)
+            await self.send(f"🎤 Welcome to the stage - {user.username}")
+        else:
+            await self.send("Sorry, you can't use this command.")
+
+    @command(name="ban")
+    async def ban_command(self, ctx, user: User):
+        if ctx.author.username == "mmattbtw":
+            await self.ban(user.id)
+            await self.send("🔨 User has been banned.")
+        else:
+            await self.send("Sorry, you can't use this command.")
+
+    @command(name="unban")
+    async def unban_command(self, ctx, user: User):
+        if ctx.author.username == "mmattbtw":
+            await self.unban(user.id)
+            await self.send(f"💖 {user.username} has been unbanned.")
+        else:
+            await self.send("Sorry, you can't use this command.")
+
+    @command(name="banchat")
+    async def ban_chat_command(self, ctx, user: User):
+        if ctx.author.username == "mmattbtw":
+            await self.ban_chat(user)
+            await self.send("🔨 User has been chat banned.")
+        else:
+            await self.send("Sorry, you can't use this command.")
+
+    @command(name="userid")
+    async def get_userid_command(self, ctx):
+        await self.send(f"Your user ID is: {ctx.author.id}")
 
     @command(name="letmespeak")
     async def speak_command(self, ctx):
