@@ -28,8 +28,8 @@ class Client(DogeClient):
     @event
     async def on_ready(self):
         print(f"Successfully connected as {self.user}!")
-        await self.join_room(config["room"])
-        #await self.create_room(name="DoobHouse! [[TESTING]]", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!letmespeak to get up on the stage.\nType d!help for the commands!")
+        #await self.join_room(config["room"])
+        await self.create_room(name="DoobHouse! [[TESTING]]", description="GitHub.com/DoobDev/DoobHouse (or d!repo)\nType d!letmespeak to get up on the stage.\nType d!help for the commands!")
         await asyncio.sleep(2)
         await self.send(f"Doob is online! (Running version {VERSION})")
 
