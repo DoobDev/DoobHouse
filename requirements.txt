@@ -11,3 +11,5 @@ python_dotenv == 0.15.0
 
 # C:\Users\notmm\DoobHouse\bot.py: 7
 requests == 2.21.0
+
+black==20.8b1
