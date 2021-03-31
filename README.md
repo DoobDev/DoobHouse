@@ -6,6 +6,10 @@
   <strong>DoobHouse</strong>
 </h1>
 
+<h4 align="center">
+   <img src="https://img.shields.io/badge/Powered%20by%3A-dogehouse.py-blue">
+</h4>
+
 <h3 align="center">
    <a href="https://docs.doobbot.com/doobhouse-commands">Commands</a>
 <h3>
