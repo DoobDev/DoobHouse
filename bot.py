@@ -84,26 +84,26 @@ class Client(DogeClient):
     #     else:
     #         await self.send("Sorry, you can't use this command.")
 
-    @command(name="userid")
+    @command(name="userid", cooldown=2, aliases=["id"])
     async def get_userid_command(self, ctx):
         await self.send(f"Your user ID is: {ctx.author.id}")
 
-    @command(name="letmespeak")
+    @command(name="letmespeak", cooldown=2, aliases=["speak", "request"])
     async def speak_command(self, ctx):
         await self.send(f"🎤 Welcome to the stage - {ctx.author.username}")
         await self.add_speaker(ctx.author)
 
-    @command(name="ping")
+    @command(name="ping",cooldown=2)
     async def ping_command(self, ctx):
         await self.send(f"🏓 Pong!~")
 
-    @command(name="help")
+    @command(name="help", cooldown=2, aliases=["commands"])
     async def help_command(self, ctx):
         await self.send(
             "You can find all of the commands over at: https://docs.doobbot.com/doobhouse-commands"
         )
 
-    @command(name="dogfact")
+    @command(name="dogfact", cooldown=2)
     async def dogfact_command(self, ctx):
         URL = "https://some-random-api.ml/facts/dog"
 
@@ -119,7 +119,7 @@ class Client(DogeClient):
                 f"⚠ The Dog Fact api sent out a {response.status_code} code :/"
             )
 
-    @command(name="dogpic")
+    @command(name="dogpic", cooldown=2, aliases=["dog"])
     async def dogpic_command(self, ctx):
         URL = "https://dog.ceo/api/breeds/image/random"
         response = requests.get(URL)
@@ -137,13 +137,13 @@ class Client(DogeClient):
                 f"⚠ The Dog Picture api sent out a {response.status_code} code :/"
             )
 
-    @command(name="dev")
+    @command(name="dev", cooldown=2, aliases=["devteam", "developer", "mmatt"])
     async def developer_command(self, ctx):
         await self.send(
             ":DANKHACKERMANS: My developer is named mmatt or Matt! You can follow him on GitHub at ==> https://github.com/mmattbtw  :peepoCheer: ~ :DogeHouse: His DogeHouse account is https://dogehouse.tv/user/mmattbtw  :WICKED:"
         )
 
-    @command(name="repo")
+    @command(name="repo", cooldown=2, aliases=["github"])
     async def repo_command(self, ctx):
         await self.send(
             ":GitHub: This bot is open source on GitHub! https://github.com/doobdev/doobhouse   :DANKHACKERMANS:"
@@ -157,7 +157,7 @@ class Client(DogeClient):
         else:
             await self.send("⚠ Sorry, you can't ask to speak!")
 
-    @command(name="dogehouse")
+    @command(name="dogehouse", cooldown=2, aliases=["dh"])
     async def dogehouse_command(self, ctx):
         response = requests.get(url="https://api.dogehouse.xyz/v1/statistics")
         data = response.json()
@@ -181,7 +181,7 @@ class Client(DogeClient):
                 f"⚠ The DogeHouse API responded with a `{response.status_code}` status code."
             )
 
-    @command(name="owoify")
+    @command(name="owoify", cooldown=2, aliases=["owo"])
     async def owoify_command(self, ctx, Message, *, message):
         owo_text = owoifator.owoify(text=message)
 
