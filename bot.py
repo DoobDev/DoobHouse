@@ -41,7 +41,7 @@ class Client(DogeClient):
     async def on_user_join(self, user: User):
         await self.send(f"👋 Welcome to the room - {user.username}")
 
-    # TODO: Implement `on_user_leave`
+    # !TODO: Implement `on_user_leave`
 
     # @Arthurdw 
     @event
@@ -50,7 +50,7 @@ class Client(DogeClient):
         await self.send(f"🎤 Welcome to the stage - {user.mention if isinstance(user, User) else user.displayname}")
         await self.add_speaker(user)
 
-    # TODO: Fix commands: ["addspeaker", "ban", "unban", "banchat"]
+    # !TODO: Fix commands: ["addspeaker", "ban", "unban", "banchat"]
 
     # @command(name="addspeaker")
     # async def add_speaker_command(self, ctx, user: User):
