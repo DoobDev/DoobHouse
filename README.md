@@ -6,6 +6,12 @@
   <strong>DoobHouse</strong>
 </h1>
 
+<h2 align="left">
+  <strong>This project has been archived.</strong>
+  
+  DoobHouse will no longer be updated indefinently.
+</h2>
+
 <h4 align="center">
    <img src="https://img.shields.io/badge/Powered%20by%3A-dogehouse.py-blue">
 </h4>
